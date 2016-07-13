@@ -1,0 +1,14 @@
+{
+  "globalDependencies": {
+    "lodash": "registry:dt/lodash#3.10.0+20160619033623",
+    "node": "registry:env/node#6.0.0+20160622202520",
+    "object-assign": "registry:dt/object-assign#4.0.1+20160316155526",
+    "react": "registry:dt/react#0.14.0+20160630100702",
+    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
+    "xml-parser": "registry:dt/xml-parser#1.2.1+20160317120654"
+  },
+  "dependencies": {
+    "glob": "registry:npm/glob#6.0.0+20160211003958",
+    "tape": "registry:npm/tape#4.0.0+20160622192935"
+  }
+}
