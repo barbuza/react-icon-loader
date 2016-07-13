@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
+    "async": "registry:dt/async#1.4.2+20160602152629",
     "lodash": "registry:dt/lodash#3.10.0+20160619033623",
     "node": "registry:env/node#6.0.0+20160622202520",
     "object-assign": "registry:dt/object-assign#4.0.1+20160316155526",

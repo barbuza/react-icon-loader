@@ -7,6 +7,7 @@ import * as ReactDOMServer from 'react-dom/server';
 import * as SVGO from 'svgo';
 import * as xmlParser from 'xml-parser';
 import * as _ from 'lodash';
+import * as async from 'async';
 import loader, { cleanupOpts } from './index';
 
 function fixXmlNode(node: xmlParser.Node): void {
@@ -28,28 +29,20 @@ function xmlEqual(a: string, b: string): boolean {
 
 tape('stress', (t: tape.Test) => {
   glob('node_modules/material-design-icons/**/svg/production/*.svg', null, (err, files) => {
-    function runNext() {
-      if (!files.length) {
-        t.end();
-        return;
-      }
-      const filename = files.shift();
+    async.each(files, (filename, callback) => {
       fs.readFile(filename, 'utf-8', (err, source) => {
         const svgo = new SVGO(cleanupOpts);
         svgo.optimize(source, result => {
-          function callback(err, js) {
+          function cb(err, js) {
             const comp = eval(js);
             t.equal(comp.displayName, path.basename(filename));
             const reactXml = ReactDOMServer.renderToStaticMarkup(React.createElement(comp));
             t.ok(xmlEqual(reactXml, result.data), filename);
-            process.nextTick(runNext);
+            callback();
           }
-
-          loader.call({ resourcePath: filename, async: () => callback }, source);
+          loader.call({ resourcePath: filename, async: () => cb }, source);
         });
       });
-    }
-
-    runNext();
+    }, t.end);
   });
 });

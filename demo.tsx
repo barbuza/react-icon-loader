@@ -2,47 +2,38 @@ import * as fs from 'fs';
 import * as glob from 'glob';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
+import * as async from 'async';
 import loader from './index';
 
-function Html(props: { children: Array<React.ReactChild> }): JSX.Element {
-  return (
-    <html>
-    <head>
-      <style dangerouslySetInnerHTML={ { __html: '.icon { width: 24px; height: 24px }'} }/>
-    </head>
-    <body>
-    {props.children}
-    </body>
-    </html>
-  );
-}
+const css = `
+.icon { width: 24px; height: 24px }
+.row:nth-child(odd) .icon { fill: green; }
+`;
 
-glob('node_modules/material-design-icons/device/svg/production/*.svg', null, (err, files) => {
-  const children = [];
-
-  function runNext() {
-    if (!files.length) {
-      const tree = React.createElement.apply(null, [Html, null].concat(children));
-      const html = ReactDOMServer.renderToStaticMarkup(tree);
-      fs.writeFile('demo.html', html);
-      return;
-    }
-    const filename = files.shift();
+glob('node_modules/material-design-icons/device/svg/production/*_48px.svg', null, (err, files) => {
+  async.map(files, (filename, callback) => {
     fs.readFile(filename, 'utf-8', (err, source) => {
-      function callback(err, js) {
-        const comp = eval(js);
-        children.push(
-          <div>
-            <div>{filename}</div>
-            <div>{React.createElement(comp, { className: 'icon' })}</div>
-          </div>
-        );
-        process.nextTick(runNext);
+      function cb(err, js) {
+        callback(null, { component: eval(js), filename });
       }
 
-      loader.call({ resourcePath: filename, async: () => callback }, source);
+      loader.call({ resourcePath: filename, async: () => cb }, source);
     });
-  }
-
-  runNext();
+  }, (err, results: Array<{ component: any, filename: string }>) => {
+    fs.writeFile('demo.html', ReactDOMServer.renderToStaticMarkup(
+      <html>
+      <head>
+        <style dangerouslySetInnerHTML={ { __html: css } }/>
+      </head>
+      <body>
+      {results.map((item, index) =>
+        <div key={index} className='row'>
+          <div>{item.filename}</div>
+          <div>{React.createElement(item.component, { className: 'icon' })}</div>
+        </div>
+      )}
+      </body>
+      </html>
+    ));
+  });
 });
