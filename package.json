@@ -4,7 +4,8 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "rimraf lib && tslint *.ts && tsc && tape lib/test.js"
+    "test": "rimraf lib && tslint *.ts* && tsc && tape lib/test.js",
+    "demo": "tsc && node lib/demo.js"
   },
   "author": "",
   "license": "ISC",
