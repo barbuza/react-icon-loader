@@ -4,6 +4,7 @@
   "description": "load svg icons as react components through SVGO",
   "main": "lib/index.js",
   "scripts": {
+    "prepublish": "npm test",
     "test": "rimraf lib && tslint *.ts* && tsc && tape lib/test.js",
     "demo": "tsc && node lib/demo.js"
   },
