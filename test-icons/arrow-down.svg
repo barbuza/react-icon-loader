@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="12px" height="6px" viewBox="0 0 12 6" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <title>down-arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-1024.000000, -638.000000)" fill="#4A4A4A">
+            <g id="down-arrow" transform="translate(1024.000000, 638.000000)">
+                <path d="M11.825641,0.152380952 C11.6615385,1.40443213e-14 11.3948718,1.40443213e-14 11.2307692,0.152380952 L6,5.01904762 L0.758974359,0.152380952 C0.594871795,1.40443213e-14 0.328205128,1.40443213e-14 0.164102564,0.152380952 C8.6916585e-14,0.304761905 8.6916585e-14,0.552380952 0.164102564,0.704761905 L5.69230769,5.83809524 C5.77435897,5.91428571 5.87692308,5.95238095 5.98974359,5.95238095 C6.09230769,5.95238095 6.20512821,5.91428571 6.28717949,5.83809524 L11.8153846,0.704761905 C11.9897436,0.552380952 11.9897436,0.304761905 11.825641,0.152380952 L11.825641,0.152380952 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

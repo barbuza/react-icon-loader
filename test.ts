@@ -55,8 +55,16 @@ tape('stress', t => {
     }
   ) as AsyncIterator<string>;
 
-  glob('node_modules/material-design-icons/**/svg/production/*.svg', null, (err, files) => {
-    async.eachLimit(files, 4, testFile, t.end);
+  glob('test-icons/*.svg', null, (err, files) => {
+    async.eachSeries(files, testFile, err => {
+      if (err) {
+        t.end(err);
+      } else {
+        glob('node_modules/material-design-icons/**/svg/production/*.svg', null, (err, files) => {
+          async.eachSeries(files, testFile, t.end);
+        });
+      }
+    });
   });
 
 });

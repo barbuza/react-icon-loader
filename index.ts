@@ -8,7 +8,8 @@ const cleanupOpts = {
     {
       removeAttrs: {
         attrs: [
-          'svg:xmlns'
+          'svg:xmlns',
+          'data-.*'
         ]
       }
     },
