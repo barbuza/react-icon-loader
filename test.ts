@@ -8,7 +8,7 @@ import * as SVGO from 'svgo';
 import * as xmlParser from 'xml-parser';
 import * as _ from 'lodash';
 import * as async from 'async';
-import loader, { cleanupOpts } from './index';
+import loader = require('./index');
 
 function fixXmlNode(node: xmlParser.Node): void {
   if (!node.content) {
@@ -32,7 +32,7 @@ tape('stress', t => {
   const testFile = async.compose(
     (filename, optimized, js, callback) => {
       const comp = eval(js);
-      t.equal(comp.displayName, path.basename(filename), `displayName ${path.basename(filename)}`);
+      t.equal(comp.displayName, `react-icon(${path.basename(filename)})`, `displayName ${path.basename(filename)}`);
       const reactXml = ReactDOMServer.renderToStaticMarkup(React.createElement(comp));
       t.ok(xmlEqual(reactXml, optimized), `render ${path.basename(filename)}`);
       callback();
@@ -46,7 +46,7 @@ tape('stress', t => {
     },
 
     (filename, source, callback) => {
-      const svgo = new SVGO(cleanupOpts);
+      const svgo = new SVGO(loader.cleanupOpts);
       svgo.optimize(source, result => callback(null, filename, source, result.data));
     },
 

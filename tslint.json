@@ -27,7 +27,7 @@
     "no-empty": true,
     "no-invalid-this": false,
     "no-reference": true,
-    "no-require-imports": true,
+    "no-require-imports": false,
     "no-string-literal": true,
     "no-unreachable": true,
     "no-unused-expression": true,

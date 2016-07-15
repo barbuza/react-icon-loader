@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import * as xmlParser from 'xml-parser';
 import * as SVGO from 'svgo';
 
-export const cleanupOpts = {
+const cleanupOpts = {
   plugins: [
     {
       removeAttrs: {
@@ -53,9 +53,18 @@ function visitNode(node: xmlParser.Node, isRoot: boolean): string {
   return result;
 }
 
-export default function transform(source: string): void {
+interface ITransform {
+  (source: string): void;
+  cleanupOpts: typeof cleanupOpts;
+}
+
+const transform = function(source: string): void {
+  if (this.cacheable) {
+    this.cacheable();
+  }
   const callback = this.async();
   const svgo = new SVGO(cleanupOpts);
+  const displayName = JSON.stringify(`react-icon(${path.basename(this.resourcePath)})`);
   svgo.optimize(source, result => {
     const tree: xmlParser.Document = xmlParser(result.data);
     const js = [
@@ -64,9 +73,13 @@ export default function transform(source: string): void {
       'function reactIcon(props) {',
       `  return ${visitNode(tree.root, true)};`,
       '}',
-      `reactIcon.displayName = ${JSON.stringify(path.basename(this.resourcePath))};`,
+      `reactIcon.displayName = ${displayName};`,
       'module.exports = reactIcon'
     ].join('\n');
     callback(null, js);
   });
-}
+} as ITransform;
+
+transform.cleanupOpts = cleanupOpts;
+
+export = transform;

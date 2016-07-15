@@ -3,7 +3,7 @@ import * as glob from 'glob';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import * as async from 'async';
-import loader from './index';
+import loader = require('./index');
 
 const css = `
 .icon { width: 24px; height: 24px }
