@@ -1,4 +1,5 @@
-# react-icon-loader
+# react-icon-loader [![Build Status](https://travis-ci.org/barbuza/react-icon-loader.svg?branch=master)](https://travis-ci.org/barbuza/react-icon-loader)
+
 load svg icons as react components through SVGO
 
 ## how it works
