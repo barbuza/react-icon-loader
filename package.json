@@ -1,7 +1,7 @@
 {
   "name": "react-icon-loader",
   "version": "0.4.0",
-  "description": "",
+  "description": "load svg icons as react components through SVGO",
   "main": "lib/index.js",
   "scripts": {
     "test": "rimraf lib && tslint *.ts* && tsc && tape lib/test.js",
