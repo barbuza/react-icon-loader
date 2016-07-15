@@ -58,7 +58,7 @@ interface ITransform {
   cleanupOpts: typeof cleanupOpts;
 }
 
-const transform = function(source: string): void {
+const transform = function (source: string): void {
   if (this.cacheable) {
     this.cacheable();
   }
@@ -72,11 +72,13 @@ const transform = function(source: string): void {
       'var assign = require("object-assign");',
       'function reactIcon(props) {',
       `  return ${visitNode(tree.root, true)};`,
-      '}',
-      `reactIcon.displayName = ${displayName};`,
-      'module.exports = reactIcon'
-    ].join('\n');
-    callback(null, js);
+      '}'
+    ];
+    if (process.env.NODE_ENV !== 'production') {
+      js.push(`reactIcon.displayName = ${displayName};`);
+    }
+    js.push('module.exports = reactIcon;');
+    callback(null, js.join('\n'));
   });
 } as ITransform;
 
