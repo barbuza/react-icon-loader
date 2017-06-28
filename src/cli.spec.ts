@@ -15,12 +15,16 @@ describe("react-icon-loader", async () => {
   }
 
   test("compile", async () => {
-    const tsRes = await exec(`./node_modules/.bin/tsc node_modules/material-design-icons/action/svg/design/*.ts`);
+    const tsFiles = glob.sync("node_modules/material-design-icons/action/svg/design/*.ts");
+    expect(tsFiles).toHaveLength(svgFiles.length);
+    const tsRes = await exec(`./node_modules/.bin/tsc ${tsFiles.join(" ")}`);
     expect(tsRes.stderr).toHaveLength(0);
   });
 
   test("exec", async () => {
-    for (const file of glob.sync("node_modules/material-design-icons/action/svg/design/*.js")) {
+    const jsFiles = glob.sync("node_modules/material-design-icons/action/svg/design/*.js");
+    expect(jsFiles).toHaveLength(svgFiles.length);
+    for (const file of jsFiles) {
       const nodeRes = await exec(`node ${file}`);
       expect(nodeRes.stderr).toHaveLength(0);
     }

@@ -15,10 +15,13 @@ export async function cli(filename: string) {
   const name = basename(filename, ".svg");
   await writeFile(tsName, `/* tslint:disable */
 import { createElement, SFC, SVGAttributes } from 'react';
+
 const reactIcon: SFC<SVGAttributes<SVGSVGElement>> = (props) => ${visitNode(doc.root, true, true)};
+
 if (process.env.NODE_ENV !== 'production') {
   reactIcon.displayName = ${stringify(`react-icon(${name})`)};
 }
+
 export default reactIcon;
 `, "utf-8");
 }
