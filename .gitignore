@@ -1,5 +1,4 @@
 /.idea
 /node_modules
-/typings
 /lib
-/demo.html
+/coverage

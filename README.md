@@ -15,13 +15,20 @@ load svg icons as react components through SVGO
 converted to
 
 ```js
-var React = require('react');
+var createElement = require('react').createElement;
+var assign = require('object-assign');
 
-module.exports = function(props) {
-  return React.createElement(
+function reactIcon(props) {
+  return createElement(
     'svg',
-    Object.assign({}, { version: '1.1', viewBox: '0 0 16 16' }, props),
-    React.createElement('path', { d: 'M8 0c-2.454 0-4.486 1.791-4.906 ...' })
+    assign({ version: '1.1', viewBox: '0 0 16 16' }, props),
+    createElement('path', { d: 'M8 0c-2.454 0-4.486 1.791-4.906 ...' })
   );
 }
+
+if (process.env.NODE_ENV !== 'production') {
+  reactIcon.displayName = 'react-icon(filename.svg)';
+}
+
+module.exports = reactIcon;
 ```

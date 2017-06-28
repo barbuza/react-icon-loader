@@ -1,7 +1,8 @@
 declare module 'svgo' {
+
   class SVGO {
     constructor(options?: {});
-    optimize(source, callback: (result: { data: string }) => void);
+    optimize(source: string, callback: (result: { data: string }) => void): void;
   }
 
   namespace SVGO {
@@ -9,4 +10,5 @@ declare module 'svgo' {
   }
 
   export = SVGO;
+
 }

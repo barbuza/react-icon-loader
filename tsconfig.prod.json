@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "es3",
+    "declaration": true
+  },
+  "exclude": [
+    "node_modules",
+    "lib",
+    "src/*.spec.*"
+  ]
+}

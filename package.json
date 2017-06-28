@@ -1,12 +1,17 @@
 {
   "name": "react-icon-loader",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "load svg icons as react components through SVGO",
-  "main": "lib/index.js",
+  "main": "lib/loader.js",
+  "typings": "lib/loader.d.ts",
+  "bin": {
+    "react-icon-ts": "./lib/cli.js"
+  },
   "scripts": {
-    "prepublish": "npm test",
-    "test": "rimraf lib && tslint *.ts* && tsc && tape lib/test.js",
-    "demo": "tsc && node lib/demo.js"
+    "build": "rimraf lib && tsc -p tsconfig.prod.json && chmod +x lib/cli.js",
+    "lint": "tslint -p tsconfig.json",
+    "test": "jest --coverage",
+    "prepublishOnly": "npm run lint && npm run build && npm test"
   },
   "author": {
     "name": "Victor Kotseruba",
@@ -17,26 +22,50 @@
     "type": "git",
     "url": "https://github.com/barbuza/react-icon-loader.git"
   },
+  "engines": {
+    "node": ">= 8.0.0"
+  },
   "license": "MIT",
   "devDependencies": {
-    "async": "^1.5.2",
+    "@types/glob": "^5.0.30",
+    "@types/jest": "^20.0.2",
+    "@types/lodash": "^4.14.67",
+    "@types/node": "^8.0.5",
+    "@types/react": "^15.0.33",
+    "@types/react-dom": "^15.5.1",
+    "@types/webpack": "^3.0.1",
+    "@types/xml-parser": "^1.2.28",
     "glob": "^7.0.5",
-    "material-design-icons": "^2.2.3",
-    "preact": "^6.0.2",
-    "preact-render-to-string": "^3.1.1",
+    "jest": "^20.0.4",
+    "material-design-icons": "^3.0.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "rimraf": "^2.5.3",
-    "svgo": "^0.6.6",
-    "tape": "^4.6.0",
-    "tslint": "^3.13.0",
-    "typescript": "^2.0.0",
-    "typings": "^1.3.1"
+    "ts-jest": "^20.0.6",
+    "ts-node": "^3.1.0",
+    "tslint": "^5.4.3",
+    "typescript": "^2.3.0"
   },
   "dependencies": {
-    "loader-utils": "^0.2.16",
+    "javascript-stringify": "^1.6.0",
     "lodash": "4.x",
     "object-assign": "4.x",
+    "svgo": "^0.7.2",
     "xml-parser": "1.2.x"
-  }
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "mapCoverage": true,
+    "testRegex": "\\.spec\\.tsx?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  },
+  "files": [
+    "lib"
+  ]
 }
