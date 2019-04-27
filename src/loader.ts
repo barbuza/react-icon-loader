@@ -31,9 +31,9 @@ export interface ITransform {
 }
 
 function es5Template(tree: xmlParser.Document, displayName: string) {
-  return `const createElement = require("react").createElement;
-const memo = require("react").memo;
-const __assign = require("tslib").__assign;
+  return `var createElement = require("react").createElement;
+var memo = require("react").memo;
+var __assign = require("tslib").__assign;
 
 function reactIcon(props) {
   return ${visitNode(tree.root, true, false)};

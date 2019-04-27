@@ -1,6 +1,6 @@
 {
   "name": "react-icon-loader",
-  "version": "16.0.0",
+  "version": "16.6.0",
   "description": "load svg icons as react components through SVGO",
   "main": "lib/loader.js",
   "typings": "lib/loader.d.ts",
@@ -54,9 +54,12 @@
     "javascript-stringify": "^1.6.0",
     "loader-utils": "^1.2.3",
     "lodash": "4.x",
-    "object-assign": "4.x",
     "svgo": "^0.7.2",
     "xml-parser": "1.2.x"
+  },
+  "peerDependencies": {
+    "tslib": "*",
+    "react": ">=16.6"
   },
   "jest": {
     "transform": {
