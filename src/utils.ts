@@ -8,12 +8,12 @@ import * as xmlParser from "xml-parser";
 
 export const readFile = promisify(readFileAsync) as (path: string, charset: "utf-8") => Promise<string>;
 export const writeFile = promisify(writeFileAsync) as (path: string, data: string, charset: "utf-8") => Promise<void>;
-export const exec = promisify(execAsync) as (command: string) => Promise<{ stdout: string, stderr: string }>;
+export const exec = promisify(execAsync) as (command: string) => Promise<{ stdout: string; stderr: string }>;
 
 export function optimize(source: string, options: object): Promise<string> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const svgo = new SVGO(options);
-    svgo.optimize(source, (result) => {
+    svgo.optimize(source, result => {
       setImmediate(() => {
         resolve(result.data);
       });
@@ -39,13 +39,13 @@ export function visitNode(node: xmlParser.Node, isRoot: boolean, isTs: boolean):
     } else if (isTs) {
       props = `{ ...${props}, props }`;
     } else {
-      props = `assign(${props}, props)`;
+      props = `__assign(${props}, props)`;
     }
   }
 
   let result = `createElement(${stringify(node.name)}${isTs ? " as keyof React.ReactSVG" : ""}, ${props}`;
   if (!_.isEmpty(node.children)) {
-    const children = node.children.map((child) => visitNode(child, false, isTs)).join(", ");
+    const children = node.children.map(child => visitNode(child, false, isTs)).join(", ");
     result = [result, children].join(", ");
   }
   if (!_.isEmpty(node.content)) {

@@ -5,7 +5,7 @@ import { exec } from "./utils";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000;
 
-describe("react-icon-loader", async () => {
+describe("react-icon-loader", () => {
   const svgFiles = glob.sync("node_modules/material-design-icons/action/svg/design/*48px.svg");
 
   for (const file of svgFiles) {

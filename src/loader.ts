@@ -1,4 +1,5 @@
 import * as stringify from "javascript-stringify";
+import { getOptions } from "loader-utils";
 import * as path from "path";
 import * as webpack from "webpack";
 import * as xmlParser from "xml-parser";
@@ -9,10 +10,7 @@ export const cleanupOpts = {
   plugins: [
     {
       removeAttrs: {
-        attrs: [
-          "svg:xmlns",
-          "data-.*",
-        ],
+        attrs: ["svg:xmlns", "data-.*"],
       },
     },
     {
@@ -32,17 +30,10 @@ export interface ITransform {
   cleanupOpts: typeof cleanupOpts;
 }
 
-const transform = function(this: webpack.loader.LoaderContext, source: string): void {
-  if (this.cacheable) {
-    this.cacheable();
-  }
-  const callback = this.async();
-  const displayName = stringify(`react-icon(${path.basename(this.resourcePath)})`);
-
-  optimize(source, cleanupOpts).then((result) => {
-    const tree: xmlParser.Document = xmlParser(result);
-    const js = `var createElement = require('react').createElement;
-var assign = require('object-assign');
+function es5Template(tree: xmlParser.Document, displayName: string) {
+  return `const createElement = require("react").createElement;
+const memo = require("react").memo;
+const __assign = require("tslib").__assign;
 
 function reactIcon(props) {
   return ${visitNode(tree.root, true, false)};
@@ -52,8 +43,38 @@ if (process.env.NODE_ENV !== 'production') {
   reactIcon.displayName = ${displayName};
 }
 
-module.exports = reactIcon;
-`;
+module.exports = memo(reactIcon);`;
+}
+
+function es6Template(tree: xmlParser.Document, displayName: string) {
+  return `import { createElement, memo } from "react";
+import { __assign } from "tslib";
+
+function reactIcon(props) {
+  return ${visitNode(tree.root, true, false)};
+}
+
+if (process.env.NODE_ENV !== 'production') {
+  reactIcon.displayName = ${displayName};
+}
+
+export default memo(reactIcon);`;
+}
+
+const transform = function(this: webpack.loader.LoaderContext, source: string): void {
+  if (this.cacheable) {
+    this.cacheable();
+  }
+  const callback = this.async();
+  const displayName = stringify(`react-icon(${path.basename(this.resourcePath)})`);
+
+  const options = getOptions(this);
+  const useEs6 = !!(options && options.es6);
+
+  optimize(source, cleanupOpts).then(result => {
+    const tree: xmlParser.Document = xmlParser(result);
+    const tmpl = useEs6 ? es6Template : es5Template;
+    const js = tmpl(tree, displayName);
     callback!(null, js);
   });
 } as ITransform;
