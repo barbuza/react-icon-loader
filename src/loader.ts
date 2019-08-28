@@ -1,12 +1,13 @@
 import * as stringify from "javascript-stringify";
 import { getOptions } from "loader-utils";
 import * as path from "path";
+import { Options } from "svgo";
 import * as webpack from "webpack";
 import * as xmlParser from "xml-parser";
 
 import { optimize, visitNode } from "./utils";
 
-export const cleanupOpts = {
+export const cleanupOpts: Options = {
   plugins: [
     {
       removeAttrs: {
@@ -27,7 +28,7 @@ export const cleanupOpts = {
 
 export interface ITransform {
   (source: string): void;
-  cleanupOpts: typeof cleanupOpts;
+  cleanupOpts: Options;
 }
 
 function es5Template(tree: xmlParser.Document, displayName: string) {
