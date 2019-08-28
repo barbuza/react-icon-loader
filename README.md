@@ -1,4 +1,4 @@
-# react-icon-loader [![Build Status](https://travis-ci.org/barbuza/react-icon-loader.svg?branch=master)](https://travis-ci.org/barbuza/react-icon-loader)
+# react-icon-loader [![Build Status](https://github.com/barbuza/react-icon-loader/workflows/Node%20CI/badge.svg)](https://github.com/barbuza/react-icon-loader/actions)
 
 load svg icons as react components through SVGO
 
