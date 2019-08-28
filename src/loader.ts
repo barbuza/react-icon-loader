@@ -35,6 +35,8 @@ function es5Template(tree: xmlParser.Document, displayName: string) {
 var memo = require("react").memo;
 var __assign = require("tslib").__assign;
 
+${tree.root.children.map((child, idx) => `var hoisted${idx} = ${visitNode(child, false, false)};`).join("\n\n")}
+
 function reactIcon(props) {
   return ${visitNode(tree.root, true, false)};
 }
@@ -49,6 +51,8 @@ module.exports = memo(reactIcon);`;
 function es6Template(tree: xmlParser.Document, displayName: string) {
   return `import { createElement, memo } from "react";
 import { __assign } from "tslib";
+
+${tree.root.children.map((child, idx) => `const hoisted${idx} = ${visitNode(child, false, false)};`).join("\n\n")}
 
 function reactIcon(props) {
   return ${visitNode(tree.root, true, false)};

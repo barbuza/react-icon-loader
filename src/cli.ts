@@ -18,6 +18,8 @@ export async function cli(filename: string) {
     `/* tslint:disable */
 import { createElement, SFC, SVGAttributes, memo } from 'react';
 
+${doc.root.children.map((child, idx) => `const hoisted${idx} = ${visitNode(child, false, true)};`).join("\n\n")}
+
 const reactIcon: SFC<SVGAttributes<SVGSVGElement>> = (props) => ${visitNode(doc.root, true, true)};
 
 if (process.env.NODE_ENV !== 'production') {

@@ -45,8 +45,13 @@ export function visitNode(node: xmlParser.Node, isRoot: boolean, isTs: boolean):
 
   let result = `createElement(${stringify(node.name)}${isTs ? " as keyof React.ReactSVG" : ""}, ${props}`;
   if (!_.isEmpty(node.children)) {
-    const children = node.children.map(child => visitNode(child, false, isTs)).join(", ");
-    result = [result, children].join(", ");
+    if (isRoot) {
+      const children = node.children.map((child, idx) => `hoisted${idx}`).join(", ");
+      result = [result, children].join(", ");
+    } else {
+      const children = node.children.map(child => visitNode(child, false, isTs)).join(", ");
+      result = [result, children].join(", ");
+    }
   }
   if (!_.isEmpty(node.content)) {
     result = [result, stringify(node.content)].join(", ");

@@ -1,6 +1,6 @@
 {
   "name": "react-icon-loader",
-  "version": "16.6.0",
+  "version": "16.6.1",
   "description": "load svg icons as react components through SVGO",
   "main": "lib/loader.js",
   "typings": "lib/loader.d.ts",
