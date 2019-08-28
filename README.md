@@ -33,5 +33,5 @@ if (process.env.NODE_ENV !== 'production') {
   reactIcon.displayName = 'react-icon(filename.svg)';
 }
 
-module.exports = reactIcon;
+module.exports = memo(reactIcon);
 ```
