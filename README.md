@@ -19,11 +19,13 @@ var createElement = require("react").createElement;
 var memo = require("react").memo;
 var __assign = require("tslib").__assign;
 
+var hoisted0 = createElement('path', { d: 'M8 0c-2.454 0-4.486 1.791-4.906 ...' });
+
 function reactIcon(props) {
   return createElement(
     'svg',
     __assign({ version: '1.1', viewBox: '0 0 16 16' }, props),
-    createElement('path', { d: 'M8 0c-2.454 0-4.486 1.791-4.906 ...' })
+    hoisted0
   );
 }
 
