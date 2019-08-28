@@ -34,6 +34,7 @@
     "@types/node": "^8.0.5",
     "@types/react": "~16",
     "@types/react-dom": "~16",
+    "@types/svgo": "^1.2.1",
     "@types/webpack": "^4.4.27",
     "@types/xml-parser": "^1.2.28",
     "glob": "^7.1.3",
@@ -54,12 +55,12 @@
     "javascript-stringify": "^1.6.0",
     "loader-utils": "^1.2.3",
     "lodash": "4.x",
-    "svgo": "^0.7.2",
+    "svgo": "^1.3.0",
     "xml-parser": "1.2.x"
   },
   "peerDependencies": {
-    "tslib": "*",
-    "react": ">=16.6"
+    "react": ">=16.6",
+    "tslib": "*"
   },
   "jest": {
     "transform": {

@@ -10,15 +10,11 @@ export const readFile = promisify(readFileAsync) as (path: string, charset: "utf
 export const writeFile = promisify(writeFileAsync) as (path: string, data: string, charset: "utf-8") => Promise<void>;
 export const exec = promisify(execAsync) as (command: string) => Promise<{ stdout: string; stderr: string }>;
 
-export function optimize(source: string, options: object): Promise<string> {
-  return new Promise(resolve => {
-    const svgo = new SVGO(options);
-    svgo.optimize(source, result => {
-      setImmediate(() => {
-        resolve(result.data);
-      });
-    });
-  });
+export async function optimize(source: string, options: object): Promise<string> {
+  const svgo = new SVGO(options);
+  const result = await svgo.optimize(source);
+  await new Promise(resolve => setImmediate(resolve));
+  return result.data;
 }
 
 function convertProps(attributes: xmlParser.Attributes): string {
