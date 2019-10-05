@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 import * as stringify from "javascript-stringify";
+import { basename, dirname, join } from "path";
 import * as xmlParser from "xml-parser";
 
-import { basename, dirname, join } from "path";
 import { cleanupOpts } from "./loader";
 import { optimize, readFile, visitNode, writeFile } from "./utils";
 
