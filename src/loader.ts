@@ -1,12 +1,13 @@
 import * as stringify from "javascript-stringify";
 import { getOptions } from "loader-utils";
 import * as path from "path";
+import { Options } from "svgo";
 import * as webpack from "webpack";
 import * as xmlParser from "xml-parser";
 
 import { optimize, visitNode } from "./utils";
 
-export const cleanupOpts = {
+export const cleanupOpts: Options = {
   plugins: [
     {
       removeAttrs: {
@@ -27,13 +28,15 @@ export const cleanupOpts = {
 
 export interface ITransform {
   (source: string): void;
-  cleanupOpts: typeof cleanupOpts;
+  cleanupOpts: Options;
 }
 
 function es5Template(tree: xmlParser.Document, displayName: string) {
   return `var createElement = require("react").createElement;
 var memo = require("react").memo;
 var __assign = require("tslib").__assign;
+
+${tree.root.children.map((child, idx) => `var hoisted${idx} = ${visitNode(child, false, false)};`).join("\n\n")}
 
 function reactIcon(props) {
   return ${visitNode(tree.root, true, false)};
@@ -49,6 +52,8 @@ module.exports = memo(reactIcon);`;
 function es6Template(tree: xmlParser.Document, displayName: string) {
   return `import { createElement, memo } from "react";
 import { __assign } from "tslib";
+
+${tree.root.children.map((child, idx) => `const hoisted${idx} = ${visitNode(child, false, false)};`).join("\n\n")}
 
 function reactIcon(props) {
   return ${visitNode(tree.root, true, false)};

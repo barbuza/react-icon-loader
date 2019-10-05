@@ -1,4 +1,4 @@
-# react-icon-loader [![Build Status](https://travis-ci.org/barbuza/react-icon-loader.svg?branch=master)](https://travis-ci.org/barbuza/react-icon-loader)
+# react-icon-loader [![Build Status](https://github.com/barbuza/react-icon-loader/workflows/Node%20CI/badge.svg)](https://github.com/barbuza/react-icon-loader/actions)
 
 load svg icons as react components through SVGO
 
@@ -19,11 +19,13 @@ var createElement = require("react").createElement;
 var memo = require("react").memo;
 var __assign = require("tslib").__assign;
 
+var hoisted0 = createElement('path', { d: 'M8 0c-2.454 0-4.486 1.791-4.906 ...' });
+
 function reactIcon(props) {
   return createElement(
     'svg',
     __assign({ version: '1.1', viewBox: '0 0 16 16' }, props),
-    createElement('path', { d: 'M8 0c-2.454 0-4.486 1.791-4.906 ...' })
+    hoisted0
   );
 }
 
@@ -31,5 +33,5 @@ if (process.env.NODE_ENV !== 'production') {
   reactIcon.displayName = 'react-icon(filename.svg)';
 }
 
-module.exports = reactIcon;
+module.exports = memo(reactIcon);
 ```
